@@ -34,11 +34,6 @@ unsigned char twink = 0;
 //  InitLEDs
 //! \brief   Description:  This function will init LEDs for MSP430
 //
-//! Description:
-//!   This test incorporates the FITS single pass test strategy so that the 
-//!   lab can run only a single pass and quit. If startingPass is 0xFF then all 
-//!   passes are ran starting at pass 0.
-//
 //  Entry:
 //!   \param
 //!   This routine does not have any input parameters.
@@ -51,10 +46,22 @@ void InitLEDs( void ){
 	LED_DIR |= LED0 + LED1;  	// Set LED pins as outputs
 	LED_OUT &= ~(LED0 + LED1);	// Turn off both LEDs
 
-}
+} // InitLEDs
 
-int main(void) {
- 
+//-----------------------------------------------------------------------------
+//
+//  LowLevelInit
+//! \brief   Description:  This function will init the watchdog controller
+//
+//  Entry:
+//!   \param
+//!   This routine does not have any input parameters.
+///
+//  Exit:
+//!   \return NONE ( Does not return any values )
+//-----------------------------------------------------------------------------
+void LowLevelInit( void ){
+
 	// Halt the watchdog timer - According to the datasheet the watchdog timer
 	// starts automatically after powerup. It must be configured or halted at
 	// the beginning of code execution to avoid a system reset. Furthermore,
@@ -62,12 +69,43 @@ int main(void) {
 	// the upper byte during write operations to be 0x5A, which is the value
 	// associated with WDTPW.
 	WDTCTL = WDTPW + WDTHOLD;
+
+} // LowLevelInit
+
+//-----------------------------------------------------------------------------
+//
+//  ConfigureClocks
+//! \brief   Description:  This function will init the clocks for the processor
+//!							at 16MHz
+//
+//  Entry:
+//!   \param
+//!   This routine does not have any input parameters.
+///
+//  Exit:
+//!   \return NONE ( Does not return any values )
+//-----------------------------------------------------------------------------
+void ConfigureClocks( void ){
+
+	//Set the basic clock system controller 1 for 16MHz
+	BCSCTL1 = CALBC1_16MHZ;
+	//Set the Digitaly controlled oscillator to 16 MHz
+	DCOCTL = CALDCO_16MHZ;
+
+	//Set basic clock system control 3 to use internal VLO 12kHz
+	BCSCTL3 |= LFXT1S_2
+
+} // ConfigureClocks
+
+int main(void) {
+ 
+	//Stop watchdog
+	LowLevelInit();	
  
 	//Setup LEDs
 	InitLEDs();
  
-	//Set ACLK to use internal VLO (12 kHz clock)
-	BCSCTL3 |= LFXT1S_2;
+ 	ConfigureClocks();
  
 	//Set TimerA to use auxiliary clock in UP mode
 	TACTL = TASSEL_1 | MC_1;
