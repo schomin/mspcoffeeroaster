@@ -2,34 +2,30 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  main.c
-//      description:  Main File
+//           module:  interrupts.c
+//      description:  interrupts for Device
 //  original author:  Andrew Schomin
-//    creation date:  05-07-2014
+//    creation date:  05-09-2014
 //
 //****************************************************************************
 
 // === INCLUDES ==============================================================
 
-#include <msp430.h>
-#include <legacymsp430.h>
-
-#include "deviceinit.h"
 #include "interrupts.h"
 
-// === MAIN FUNTION ==========================================================
+// === PUBLIC FUNCTIONS ======================================================
 
+interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 
-int main(void) {
+  LED_OUT |= LED1;
 
-	//Initialize the device
-	InitDevice();
+  //Disable the interrupt for TACCR0 match
+  TACCTL0 = ~(CCIE);
 
-	//Enable global interrupts
-	eint();
+}
 
-	while(1) {
-		//Loop forever, interrupts take care of the rest
-	}
+interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void) {
+
+  LED_OUT ^= LED1;
 
 }

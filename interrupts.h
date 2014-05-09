@@ -2,10 +2,10 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  main.c
-//      description:  Main File
+//           module:  interrupts.h
+//      description:  Header file for Device interrupts
 //  original author:  Andrew Schomin
-//    creation date:  05-07-2014
+//    creation date:  05-09-2014
 //
 //****************************************************************************
 
@@ -13,23 +13,13 @@
 
 #include <msp430.h>
 #include <legacymsp430.h>
-
 #include "deviceinit.h"
-#include "interrupts.h"
 
-// === MAIN FUNTION ==========================================================
+// === DEFINES ===============================================================
 
+// === GLOBAL VARIABLES =====================================================
 
-int main(void) {
+// === FUNCTION PROTOTYPES ==================================================
 
-	//Initialize the device
-	InitDevice();
-
-	//Enable global interrupts
-	eint();
-
-	while(1) {
-		//Loop forever, interrupts take care of the rest
-	}
-
-}
+interrupt(PORT1_VECTOR) PORT1_ISR(void);
+interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void);
