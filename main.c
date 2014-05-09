@@ -3,7 +3,7 @@
 //****************************************************************************
 //
 //           module:  main.c
-//      description:  main File
+//      description:  Main File
 //  original author:  Andrew Schomin
 //    creation date:  05-07-2014
 //
@@ -16,14 +16,15 @@
 
 // === DEFINES ===============================================================
 
-#define LED0 		BIT0		//!< Definition for led 0
-#define LED1 		BIT6		//!< Definition for led 1
+#define LED0 			BIT0		 //!< Definition for led 0
+#define LED1 			BIT6		 //!< Definition for led 1
 #define LED_DIR		P1DIR		//!< Definition for led dir
-#define LED_OUT 	P1OUT		//!< Definition for led out
+#define LED_OUT 	 P1OUT		//!< Definition for led out
+#define BTN        BIT3		 //!< Definition for the button on launchpad
 
 #ifndef	TACTL
-#define TACTL TA0CTL 			//!< For MSP430 Controller compatability 
-#define TACCTL0 TA0CCTL0		//!< For MSP430 Controller compatability 
+#define TACTL TA0CTL 			//!< For MSP430 Controller compatability
+#define TACCTL0 TA0CCTL0		//!< For MSP430 Controller compatability
 #endif  //TACTL
 
 unsigned char twink = 0;
@@ -98,32 +99,32 @@ void ConfigureClocks( void ){
 } // ConfigureClocks
 
 int main(void) {
- 
+
 	//Stop watchdog
-	LowLevelInit();	
- 
+	LowLevelInit();
+
 	//Setup LEDs
 	InitLEDs();
- 
- 	ConfigureClocks();
- 
+
+	ConfigureClocks();
+
 	//Set TimerA to use auxiliary clock in UP mode
 	TACTL = TASSEL_1 | MC_1;
 	//Enable the interrupt for TACCR0 match
 	TACCTL0 = CCIE;
- 
+
 	// Set TACCR0 which also starts the timer. At 12 kHz, counting to 12000
 	// should output an LED change every 1 second. Try this out and see how
 	// inaccurate the VLO can be
 	TACCR0 = 3000;
- 
+
 	//Enable global interrupts
 	eint();
- 
+
 	while(1) {
 		//Loop forever, interrupts take care of the rest
 	}
- 
+
 }
 
 // Interrupt Service Routine for Timer A0. We need to use preprocessor
@@ -134,10 +135,8 @@ interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void) {
 #else
 interrupt(TIMERA0_VECTOR) TIMERA0_ISR(void) {
 #endif
-	twink = !twink;
-	// Doing it like this will set all other pins low, which is ok for this
-	// example. If you got other things going for the other pins on this port
-	// you should use bitwise operations.
-	LED_OUT = (twink)?LED0:LED1;
- 
+	while ((P1IN & BTN) == BTN);
+
+	LED_OUT ^= LED1;
+
 }
