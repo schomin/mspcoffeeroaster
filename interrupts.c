@@ -13,7 +13,7 @@
 
 #include "interrupts.h"
 
-// === PUBLIC FUNCTIONS ======================================================
+// === GLOBAL INTERRUPTS =====================================================
 
 interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 

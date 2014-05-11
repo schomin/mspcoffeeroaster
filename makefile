@@ -1,7 +1,7 @@
 CC=msp430-gcc
 CFLAGS=
 LDFLAGS=-mmcu=msp430g2553 -Wall -Os
-SOURCES=main.c deviceinit.c interrupts.c
+SOURCES=main.c deviceinit.c interrupts.c roastinit.c
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=mspcoffee
 
