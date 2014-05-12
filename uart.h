@@ -2,10 +2,10 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  interrupts.h
-//      description:  Header file for Device interrupts
+//           module:  uart.h
+//      description:  Header file for uart
 //  original author:  Andrew Schomin
-//    creation date:  05-09-2014
+//    creation date:  05-12-2014
 //
 //****************************************************************************
 
@@ -14,14 +14,15 @@
 #include <msp430.h>
 #include <legacymsp430.h>
 #include "deviceinit.h"
-#include "roastinit.h"
-#include "uart.h"
 
 // === DEFINES ===============================================================
 
-// === GLOBAL VARIABLES ======================================================
+#define     TXD                   BIT1    // TXD on P1.1
+#define     RXD                   BIT2    // RXD on P1.2
 
-// === INTERRUPT PROTOTYPES ==================================================
+// === GLOBAL VARIABLES =====================================================
 
-interrupt(PORT1_VECTOR) PORT1_ISR(void);
-interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void);
+// === FUNCTION PROTOTYPES ==================================================
+
+void InitUART( void );
+void UARTSendArray( char *TxArray, unsigned char ArrayLength);

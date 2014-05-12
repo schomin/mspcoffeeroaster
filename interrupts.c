@@ -17,10 +17,20 @@
 
 interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 
-  LED_OUT |= LED1;
+  if((P1IFG & BTN)){
 
-  //Disable the interrupt for TACCR0 match
-  TACCTL0 = ~(CCIE);
+    LED_OUT |= LED1;
+
+    P1IFG = P1IFG & ~BTN;
+
+    UARTSendArray("Test", 4);
+
+    InitRoast();
+
+    //Disable the interrupt for TACCR0 match. We are now doing somethings
+    TACCTL0 = ~(CCIE);
+
+  }
 
 }
 

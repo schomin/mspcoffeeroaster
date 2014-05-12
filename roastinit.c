@@ -14,3 +14,8 @@
 #include "roastinit.h"
 
 // === FUNCTIONS =============================================================
+
+void InitRoast(){
+
+
+} //InitRoast

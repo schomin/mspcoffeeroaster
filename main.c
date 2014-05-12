@@ -16,6 +16,7 @@
 
 #include "deviceinit.h"
 #include "interrupts.h"
+#include "uart.h"
 
 // === MAIN FUNTION ==========================================================
 
@@ -24,6 +25,9 @@ int main(void) {
 
 	//Initialize the device
 	InitDevice();
+
+	//Initialize the UART
+	InitUART();
 
 	//Enable global interrupts
 	eint();

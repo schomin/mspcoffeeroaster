@@ -15,6 +15,7 @@
 
 // === DEFINES ===============================================================
 
+#define MCLK_IS_16MHZ  1    //!< Specify that clock is set at 16MHz
 #define LED0 			BIT0		 //!< Definition for led 0
 #define LED1 			BIT6		 //!< Definition for led 1
 #define LED_DIR		P1DIR		//!< Definition for led dir
