@@ -32,14 +32,15 @@ int main(void) {
 
 	UARTSendArray("Test:\n", 6);
 
-	//int *addr = (int *)FLASH_START_ADDRESS;
+	int *addr = (int *)FLASH_START_ADDRESS;
 
-	//FlashErase(addr);
+	FlashErase(addr);
 
 
-	//FlashProgram(addr);
+	FlashProgram(addr);
 
-	UARTSendArray((unsigned char *)10, 1);
+	int data[2]={*addr, 20};
+	UARTSendArray(&data, 4);
 
 	//Enable global interrupts
 	eint();
