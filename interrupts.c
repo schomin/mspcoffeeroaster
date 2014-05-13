@@ -17,7 +17,7 @@
 
 interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 
-  if((P1IFG & BTN)){
+  if((P1IFG & BTN) && !RoastStarted){
 
     LED_OUT |= LED1;
 

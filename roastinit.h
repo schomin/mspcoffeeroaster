@@ -12,8 +12,11 @@
 // === INCLUDES ==============================================================
 
 #include <msp430.h>
+#include "utilities.h"
 
 // === GLOBAL VARIABLES ======================================================
+
+extern bool RoastStarted;	//!< Variable to track when roast has started
 
 // === FUNCTION PROTOTYPES ===================================================
 

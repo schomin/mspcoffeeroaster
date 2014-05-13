@@ -13,6 +13,10 @@
 
 #include "roastinit.h"
 
+// === GLOBAL VARIABLES ======================================================
+
+bool RoastStarted = false; // Initialize RoastStarted
+
 // === FUNCTIONS =============================================================
 
 void InitRoast(){
