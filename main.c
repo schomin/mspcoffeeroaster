@@ -12,11 +12,12 @@
 // === INCLUDES ==============================================================
 
 #include <msp430.h>
-#include <stdio.h>
+#include <stdlib.h>
 
 #include "deviceinit.h"
 #include "interrupts.h"
 #include "uart.h"
+#include "flash.h"
 
 // === MAIN FUNTION ==========================================================
 
@@ -28,6 +29,17 @@ int main(void) {
 
 	//Initialize the UART
 	InitUART();
+
+	UARTSendArray("Test:\n", 6);
+
+	//int *addr = (int *)FLASH_START_ADDRESS;
+
+	//FlashErase(addr);
+
+
+	//FlashProgram(addr);
+
+	UARTSendArray((unsigned char *)10, 1);
 
 	//Enable global interrupts
 	eint();

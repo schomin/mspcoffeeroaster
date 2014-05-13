@@ -25,4 +25,4 @@
 // === FUNCTION PROTOTYPES ==================================================
 
 void InitUART( void );
-void UARTSendArray( char *TxArray, unsigned char ArrayLength);
+void UARTSendArray( unsigned char *TxArray, unsigned char ArrayLength);

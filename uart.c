@@ -40,8 +40,6 @@ void InitUART( void ){
 
   __bis_SR_register(GIE); // Enter LPM0, interrupts enabled
 
-  UARTSendArray("Test", 4);
-
 } //InitUART
 
 //-----------------------------------------------------------------------------
@@ -71,14 +69,12 @@ void InitUART( void ){
 //!   two bytes for each integer hence the data length is twice the
 //!   array length
 //-----------------------------------------------------------------------------
-void UARTSendArray( char *TxArray, unsigned char ArrayLength){
+void UARTSendArray( unsigned char *TxArray, unsigned char ArrayLength){
 
 
   while(ArrayLength-- != 0){ // Loop until StringLength == 0 and post decrement
 
     while(!(IFG2 & UCA0TXIFG)); // Wait for TX buffer to be ready for new data
-
-    LED_OUT ^= LED0;
 
     UCA0TXBUF = *TxArray; // Write the character at the location specified
                           // by the pointer

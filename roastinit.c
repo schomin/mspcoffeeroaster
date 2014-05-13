@@ -21,5 +21,12 @@ bool RoastStarted = false; // Initialize RoastStarted
 
 void InitRoast(){
 
+  //If roasting is in progress then we don't want to init
+  if(!RoastStarted){
+
+    //Roasting is in progress
+    RoastStarted = true;
+
+  }
 
 } //InitRoast
