@@ -15,6 +15,7 @@
 #include "utilities.h"
 #include "deviceinit.h"
 #include "uart.h"
+#include "flash.h"
 
 // === GLOBAL VARIABLES ======================================================
 

@@ -22,6 +22,7 @@
                                       //!< Flash space
 #define CURVE_START_ADDRESS FLASH_START_ADDRESS //!< Use start address to store
                                                 //!< curve for now
+#define ERASE_BLOCK_SIZE    0x200               //!< Size of an erase block
 
 // === GLOBAL VARIABLES ======================================================
 

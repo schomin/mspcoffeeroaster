@@ -17,7 +17,7 @@
 
 bool isLowBits = true;      //!< Used to tell interrupt what bits of the int
                             //!< Being transfered we are on
-int test = 0;
+int combinedBits = 0;
 
 // === GLOBAL INTERRUPTS =====================================================
 
@@ -91,22 +91,28 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 
     if(isLowBits){
 
-      test = (int)data;
+      combinedBits = (int)data;
 
       isLowBits = false;
 
     }
     else{
 
-      test |= (int)data << 8;
+      combinedBits |= (int)data << 8;
 
-      UARTSendArray(&test, 2);
-
-      if(test == 0xFFFF){
-
-        UARTSendArray("Got INT\n", 8);
+      if(combinedBits == 0xFFFF){
 
         CurveSaveStarted = false;
+
+      }else{
+
+        if((int)CurentCurvePoint%ERASE_BLOCK_SIZE == 0){
+
+          FlashErase(CurentCurvePoint);
+
+        }
+
+        FlashProgram(CurentCurvePoint++, combinedBits);
 
       }
 
@@ -124,6 +130,12 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
        UARTSendArray("k", 1);
        CurveSaveStarted = true;
        break;
+     }
+     // Host wants to get a roast curve
+     case 'g': {
+       // Respond with k char
+       UARTSendArray("k", 1);
+       GetRoastCurve();
      }
      default: {
        UARTSendArray("Unknown Command: ", 17);

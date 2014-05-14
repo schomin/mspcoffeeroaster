@@ -16,7 +16,7 @@
 // === PUBLIC VARIABLES ======================================================
 
 int *CurentCurvePoint = (int *)FLASH_START_ADDRESS;
-bool CurveSaveStarted = false; 
+bool CurveSaveStarted = false;
 
 // === PUBLIC FUNCTIONS ======================================================
 

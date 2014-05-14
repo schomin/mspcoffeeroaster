@@ -18,6 +18,19 @@
 
 // === FUNCTIONS =============================================================
 
+void GetRoastCurve( void ){
+
+  CurentCurvePoint = (int *)FLASH_START_ADDRESS;
+
+  while (1){
+
+    int temp = FlashRead(CurentCurvePoint++);
+
+    UARTSendArray(&temp, 2);
+
+  }
+
+}
 
 void SaveRoastCurve( void ){
 
