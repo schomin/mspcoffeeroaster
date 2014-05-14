@@ -14,6 +14,7 @@
 #include <msp430.h>
 #include <legacymsp430.h>
 #include "uart.h"
+#include "utilities.h"
 
 // === DEFINES ===============================================================
 
@@ -24,6 +25,8 @@
 
 // === GLOBAL VARIABLES ======================================================
 
+extern int *CurentCurvePoint;    //!< Current memory address of the accessed curve
+extern bool CurveSaveStarted;    //!< A curve save has been initiated
 
 // === FUNCTION PROTOTYPES ===================================================
 

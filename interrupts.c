@@ -13,6 +13,12 @@
 
 #include "interrupts.h"
 
+// === PRIVATE VARIABLES =====================================================
+
+bool isLowBits = true;      //!< Used to tell interrupt what bits of the int
+                            //!< Being transfered we are on
+int test = 0;
+
 // === GLOBAL INTERRUPTS =====================================================
 
 //-----------------------------------------------------------------------------
@@ -64,23 +70,67 @@ interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void) {
 
 } //TIMERA0_ISR
 
-
-
+//-----------------------------------------------------------------------------
+//
+//  USCI0RX_ISR
+//! \brief   Description:  This is an interrupt for UART RX. It will interrupt
+//!                        when a process is not happening
+//
+//  Entry:
+//!   \param
+//!   This routine does not have any input parameters.
+///
+//  Exit:
+//!   \return NONE ( Does not return any values )
+//-----------------------------------------------------------------------------
 interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 {
   char data = UCA0RXBUF;
 
-  switch(data){
-   case 's': {
-     int stuff[4] = {0x10, 0x11, 0x12, 0xFFFF};
-     UARTSendArray(&stuff, 8);
-     break;
+  if(CurveSaveStarted){
+
+    if(isLowBits){
+
+      test = (int)data;
+
+      isLowBits = false;
+
+    }
+    else{
+
+      test |= (int)data << 8;
+
+      UARTSendArray(&test, 2);
+
+      if(test == 0xFFFF){
+
+        UARTSendArray("Got INT\n", 8);
+
+        CurveSaveStarted = false;
+
+      }
+
+      isLowBits = true;
+
+    }
+
+  }
+  else{
+
+    switch(data){
+     // Host wants to save a new curve to flash
+     case 's': {
+       // Respond with k char
+       UARTSendArray("k", 1);
+       CurveSaveStarted = true;
+       break;
+     }
+     default: {
+       UARTSendArray("Unknown Command: ", 17);
+       UARTSendArray(&data, 1);
+       UARTSendArray("\n\r", 2);
+       break;
+     }
+     }
    }
-   default: {
-     UARTSendArray("Unknown Command: ", 17);
-     UARTSendArray(&data, 1);
-     UARTSendArray("\n\r", 2);
-     break;
-   }
-   }
-}
+} //USCI0RX_ISR

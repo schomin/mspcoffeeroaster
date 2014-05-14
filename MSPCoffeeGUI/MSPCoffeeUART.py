@@ -2,6 +2,7 @@
 
 # PySerial include
 import serial
+import time
 
 """
   MSPCoffeeUART
@@ -19,7 +20,7 @@ class MSPCoffeeUART:
   """
   def __init__(self):
 
-    self.__SerialPort = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+    self.__SerialPort = serial.Serial('/dev/ttyACM0', 9600, bytesize = serial.EIGHTBITS, parity = serial.PARITY_NONE, stopbits = serial.STOPBITS_ONE, timeout=1)
     # Open the serial port for use in the object
 
   """
@@ -34,12 +35,18 @@ class MSPCoffeeUART:
   def send_something(self):
 
     self.__SerialPort.write('s'.encode('utf-8'))
-    self.__SerialPort.flush();
-    while 1:
-      stuff = self.__SerialPort.read(2)
-      print (stuff)
-      x = int.from_bytes(stuff, byteorder='little')
-      print (x)
-      if x == 0xFFFF:
-        break
-    print ("Broke the loop")
+    self.__SerialPort.flush()
+    print ("Sending stuff\n")
+    response = self.__SerialPort.read()
+    while response != b'k':
+      print ("Waiting for hand shake\n")
+      response = self.__SerialPort.read()
+    print ("Got response\n")
+    self.__SerialPort.write(b'\x01\x05')
+    self.__SerialPort.flush()
+    response = self.__SerialPort.readline()
+    print (response)
+    self.__SerialPort.write(b'\xFF\xFF')
+    self.__SerialPort.flush()
+    response = self.__SerialPort.readline()
+    print (response)
