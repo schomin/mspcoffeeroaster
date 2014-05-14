@@ -15,5 +15,5 @@ $(EXECUTABLE): $(OBJECTS)
 clean:
 	rm -rf *o $(EXECUTABLE)
 
-flash-target:
+install:
 	mspdebug rf2500 "prog $(EXECUTABLE)"

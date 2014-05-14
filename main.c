@@ -30,18 +30,6 @@ int main(void) {
 	//Initialize the UART
 	InitUART();
 
-	UARTSendArray("Test:\n", 6);
-
-	int *addr = (int *)FLASH_START_ADDRESS;
-
-	FlashErase(addr);
-
-
-	FlashProgram(addr);
-
-	int data[2]={*addr, 20};
-	UARTSendArray(&data, 4);
-
 	//Enable global interrupts
 	eint();
 

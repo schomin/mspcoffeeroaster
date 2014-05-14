@@ -28,5 +28,5 @@
 // === FUNCTION PROTOTYPES ===================================================
 
 void FlashErase(int *addr);
-void FlashProgram(int *addr);
+void FlashProgram(int *addr, int value);
 int FlashRead(int *addr);

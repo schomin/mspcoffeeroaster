@@ -37,6 +37,8 @@ interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 
     InitRoast();
 
+    UARTSendArray("Button Pushed\n", 14);
+
     //Disable the interrupt for TACCR0 match. We are now doing somethings
     TACCTL0 = ~(CCIE);
 
@@ -61,3 +63,24 @@ interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void) {
   LED_OUT ^= LED1;
 
 } //TIMERA0_ISR
+
+
+
+interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
+{
+  char data = UCA0RXBUF;
+
+  switch(data){
+   case 's': {
+     int stuff[4] = {0x10, 0x11, 0x12, 0xFFFF};
+     UARTSendArray(&stuff, 8);
+     break;
+   }
+   default: {
+     UARTSendArray("Unknown Command: ", 17);
+     UARTSendArray(&data, 1);
+     UARTSendArray("\n\r", 2);
+     break;
+   }
+   }
+}

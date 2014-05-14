@@ -15,8 +15,6 @@
 
 // === PRIVATE VARIABLES =====================================================
 
-int *FlashAddress = (int *)FLASH_START_ADDRESS; //!< pointer to flash for use below
-
 // === PUBLIC FUNCTIONS ======================================================
 
 //-----------------------------------------------------------------------------
@@ -37,7 +35,7 @@ void FlashErase(int *addr)
                                        // a flash operation in progress while interrupt may
                                        // crash the system.
   while(BUSY & FCTL3);                 // Check if Flash being used
-  FCTL2 = FWKEY + FSSEL_1 + FN3;       // Clk = SMCLK/4
+  //FCTL2 = FWKEY + FSSEL1 + FN3;       // Clk = SMCLK/4
   FCTL1 = FWKEY + ERASE;               // Set Erase bit
   FCTL3 = FWKEY;                       // Clear Lock bit
   *addr = 0;                           // Dummy write to erase Flash segment
@@ -62,15 +60,14 @@ void FlashErase(int *addr)
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashProgram(int *addr)
+void FlashProgram(int *addr, int value)
 {
   dint();                              // Disable interrupts
-  FCTL2 = FWKEY + FSSEL_1 + FN0;       // Clk = SMCLK/4
+  //FCTL2 = FWKEY + FSSEL_1 + FN0;       // Clk = SMCLK/4
   FCTL3 = FWKEY;                       // Clear Lock bit
   FCTL1 = FWKEY + WRT;                 // Set WRT bit for write operation
 
-  *addr++ = 0x50;         // copy value to flash
-  //*addr++ = 51;         // copy value to flash
+  *addr = value;         // copy value to flash
 
   FCTL1 = FWKEY;                        // Clear WRT bit
   FCTL3 = FWKEY + LOCK;                 // Set LOCK bit
