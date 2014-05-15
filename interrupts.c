@@ -102,6 +102,7 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 
       if(combinedBits == 0xFFFF){
 
+        UARTSendArray("Got the curve", 18);
         CurveSaveStarted = false;
 
       }else{
@@ -113,6 +114,8 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
           //Enable the interrupt for TACCR0 match. We are now doing somethings
           //TACCTL0 = CCIE;
         }
+
+        UARTSendArray(&CurentCurvePoint, 2);
 
         FlashProgram(CurentCurvePoint++, combinedBits);
         CurveOffset++;
@@ -134,8 +137,6 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
        CurveSaveStarted = true;
        CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
        CurveOffset = 0;
-       FlashErase(CurentCurvePoint);
-       FlashErase(CurentCurvePoint + ERASE_BLOCK_SIZE);
        //Disable the interrupt for TACCR0 match. We are now doing somethings
        //TACCTL0 = ~(CCIE);
        break;

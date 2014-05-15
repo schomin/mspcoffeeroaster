@@ -41,11 +41,11 @@ void SaveRoastCurve( void ){
     char lowbits = UCA0RXBUF;
     char highbits = UCA0RXBUF;
 
-    int highbitsint = (int)highbits << 8;
-    int lowbitsint = (int)lowbits;
-    int combined = (int)highbits << 8 | (int)lowbits;
+    unsigned int highbitsint = (unsigned int)highbits << 8;
+    unsigned int lowbitsint = (unsigned int)lowbits;
+    unsigned int combined = (unsigned int)highbits << 8 | (unsigned int)lowbits;
 
-    int data[3] = { highbitsint, lowbitsint, combined};
+    unsigned int data[3] = { highbitsint, lowbitsint, combined};
 
     UARTSendArray("In Roast Curve Loop\n", 21);
     UARTSendArray(&data, 6);

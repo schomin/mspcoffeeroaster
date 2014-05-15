@@ -77,6 +77,8 @@ class MSPCoffeeUART:
       # Send excape int value
       self.__SerialPort.write(b'\xff\xff')
       self.__SerialPort.flush()
+      response = self.__SerialPort.readline()
+      print (response)
 
   """
     download_curve

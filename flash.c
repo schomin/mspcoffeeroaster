@@ -39,7 +39,7 @@ void FlashErase(unsigned int *addr)
                                        // a flash operation in progress while interrupt may
                                        // crash the system.
   while(BUSY & FCTL3);                 // Check if Flash being used
-  //FCTL2 = FWKEY + FSSEL1 + FN3;       // Clk = SMCLK/4
+  FCTL2 = FWKEY + FSSEL1 + FN2;       // Clk = SMCLK/4
   FCTL1 = FWKEY + ERASE;               // Set Erase bit
   FCTL3 = FWKEY;                       // Clear Lock bit
   *addr = 0;                           // Dummy write to erase Flash segment
@@ -67,7 +67,7 @@ void FlashErase(unsigned int *addr)
 void FlashProgram(unsigned int *addr, unsigned int value)
 {
   dint();                              // Disable interrupts
-  //FCTL2 = FWKEY + FSSEL_1 + FN0;       // Clk = SMCLK/4
+  FCTL2 = FWKEY + FSSEL1 + FN2;       // Clk = SMCLK/4
   FCTL3 = FWKEY;                       // Clear Lock bit
   FCTL1 = FWKEY + WRT;                 // Set WRT bit for write operation
 
