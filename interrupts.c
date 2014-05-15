@@ -17,7 +17,7 @@
 
 bool isLowBits = true;      //!< Used to tell interrupt what bits of the int
                             //!< Being transfered we are on
-int combinedBits = 0;
+unsigned int combinedBits = 0;
 
 // === GLOBAL INTERRUPTS =====================================================
 
@@ -91,14 +91,14 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 
     if(isLowBits){
 
-      combinedBits = (int)data;
+      combinedBits = (unsigned int)data;
 
       isLowBits = false;
 
     }
     else{
 
-      combinedBits |= (int)data << 8;
+      combinedBits |= (unsigned int)data << 8;
 
       if(combinedBits == 0xFFFF){
 
@@ -106,13 +106,16 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 
       }else{
 
-        if((int)CurentCurvePoint%ERASE_BLOCK_SIZE == 0){
+        if(CurveOffset%(ERASE_BLOCK_SIZE/2) == 0){
 
+          UARTSendArray("Eraseing the block", 18);
           FlashErase(CurentCurvePoint);
-
+          //Enable the interrupt for TACCR0 match. We are now doing somethings
+          //TACCTL0 = CCIE;
         }
 
         FlashProgram(CurentCurvePoint++, combinedBits);
+        CurveOffset++;
 
       }
 
@@ -129,6 +132,12 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
        // Respond with k char
        UARTSendArray("k", 1);
        CurveSaveStarted = true;
+       CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
+       CurveOffset = 0;
+       FlashErase(CurentCurvePoint);
+       FlashErase(CurentCurvePoint + ERASE_BLOCK_SIZE);
+       //Disable the interrupt for TACCR0 match. We are now doing somethings
+       //TACCTL0 = ~(CCIE);
        break;
      }
      // Host wants to get a roast curve

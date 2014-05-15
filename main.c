@@ -30,6 +30,28 @@ int main(void) {
 	//Initialize the UART
 	InitUART();
 
+	FlashErase(CurentCurvePoint);
+
+	unsigned int test = 1;
+
+	FlashProgram(CurentCurvePoint++, test);
+
+	test = 2;
+
+	FlashProgram(CurentCurvePoint++, test);
+
+	CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
+
+	test = FlashRead(CurentCurvePoint++);
+
+	UARTSendArray(&test, 2);
+
+	test = FlashRead(CurentCurvePoint++);
+
+	UARTSendArray(&test, 2);
+
+
+
 	//Enable global interrupts
 	eint();
 

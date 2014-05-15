@@ -41,15 +41,19 @@ class MSPCoffeeUART:
   """
   def upload_curve(self, file_name):
 
+    print ("Writing s to serial port\n")
     # Write an 's' char to the uart to tell the device we want to save a curve
     self.__SerialPort.write('s'.encode('utf-8'))
     self.__SerialPort.flush()
+
+    print ("Reading response from serial port\n")
 
     # Get the response and wait for the receiveing of the 'k' char
     response = self.__SerialPort.read()
     while response != b'k':
       print ("Waiting for hand shake\n")
       response = self.__SerialPort.read()
+      print (response)
     print ("Uploading the curve\n")
 
     # Open Curve csv file for transfer
@@ -63,11 +67,13 @@ class MSPCoffeeUART:
         temp = int(row[0]);
         print (temp)
         # Convert int into two bytes
-        bytes_to_send = temp.to_bytes(2, 'little', signed=True)
+        bytes_to_send = temp.to_bytes(2, 'little', signed=False)
         print (bytes_to_send)
         # Send the int to the devices uart
         self.__SerialPort.write(bytes_to_send)
         self.__SerialPort.flush()
+        response = self.__SerialPort.readline()
+        print (response)
       # Send excape int value
       self.__SerialPort.write(b'\xff\xff')
       self.__SerialPort.flush()
@@ -90,7 +96,7 @@ class MSPCoffeeUART:
 
     while 1:
       response = self.__SerialPort.read(2)
-      temp = int.from_bytes(response,'little')
+      temp = int.from_bytes(response,'little', signed=False)
       print (temp)
       if temp == 0xFFFF:
           break;

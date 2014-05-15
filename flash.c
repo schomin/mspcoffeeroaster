@@ -15,8 +15,9 @@
 
 // === PUBLIC VARIABLES ======================================================
 
-int *CurentCurvePoint = (int *)FLASH_START_ADDRESS;
+unsigned int *CurentCurvePoint = (unsigned int *)FLASH_START_ADDRESS;
 bool CurveSaveStarted = false;
+int CurveOffset = 0;
 
 // === PUBLIC FUNCTIONS ======================================================
 
@@ -31,7 +32,7 @@ bool CurveSaveStarted = false;
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashErase(int *addr)
+void FlashErase(unsigned int *addr)
 {
 
   dint();                              // Disable interrupts. This is important, otherwise,
@@ -63,7 +64,7 @@ void FlashErase(int *addr)
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashProgram(int *addr, int value)
+void FlashProgram(unsigned int *addr, unsigned int value)
 {
   dint();                              // Disable interrupts
   //FCTL2 = FWKEY + FSSEL_1 + FN0;       // Clk = SMCLK/4
@@ -89,7 +90,7 @@ void FlashProgram(int *addr, int value)
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-int FlashRead(int *addr)
+unsigned int FlashRead(unsigned int *addr)
 {
 
   return *addr;

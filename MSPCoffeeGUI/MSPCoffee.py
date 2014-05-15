@@ -5,6 +5,8 @@ import tkinter
 from tkinter import filedialog
 from tkinter import ttk
 
+print ("Opening serial port\n")
+
 mspcu = MSPCoffeeUART()
 
 # define options for opening or saving a file
