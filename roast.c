@@ -39,6 +39,46 @@ void InitRoast( void ){
     //Roasting is in progress
     RoastStarted = true;
 
+    // Setup ROAST_SCENARIO_0
+    RoastScenarios[ROAST_SCENARIO_0].TemperatureOffset = SCENARIO_0_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_0].FanLevel = FAN_STATE_1;
+    RoastScenarios[ROAST_SCENARIO_0].CoilEnabled = true;
+
+    // Setup ROAST_SCENARIO_1
+    RoastScenarios[ROAST_SCENARIO_1].TemperatureOffset = SCENARIO_1_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_1].FanLevel = FAN_STATE_2;
+    RoastScenarios[ROAST_SCENARIO_1].CoilEnabled = true;
+
+    // Setup ROAST_SCENARIO_2
+    RoastScenarios[ROAST_SCENARIO_2].TemperatureOffset = SCENARIO_2_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_2].FanLevel = FAN_STATE_3;
+    RoastScenarios[ROAST_SCENARIO_2].CoilEnabled = true;
+
+    // Setup ROAST_SCENARIO_3
+    RoastScenarios[ROAST_SCENARIO_3].TemperatureOffset = SCENARIO_3_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_3].FanLevel = FAN_MAX;
+    RoastScenarios[ROAST_SCENARIO_3].CoilEnabled = true;
+
+    // Setup ROAST_SCENARIO_4
+    RoastScenarios[ROAST_SCENARIO_4].TemperatureOffset = SCENARIO_4_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_4].FanLevel = FAN_STATE_1;
+    RoastScenarios[ROAST_SCENARIO_4].CoilEnabled = false;
+
+    // Setup ROAST_SCENARIO_5
+    RoastScenarios[ROAST_SCENARIO_5].TemperatureOffset = SCENARIO_5_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_5].FanLevel = FAN_STATE_2;
+    RoastScenarios[ROAST_SCENARIO_5].CoilEnabled = false;
+
+    // Setup ROAST_SCENARIO_6
+    RoastScenarios[ROAST_SCENARIO_6].TemperatureOffset = SCENARIO_6_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_6].FanLevel = FAN_STATE_3;
+    RoastScenarios[ROAST_SCENARIO_6].CoilEnabled = false;
+
+    // Setup ROAST_SCENARIO_7
+    RoastScenarios[ROAST_SCENARIO_7].TemperatureOffset = SCENARIO_7_THRESHOLD;
+    RoastScenarios[ROAST_SCENARIO_7].FanLevel = FAN_MAX;
+    RoastScenarios[ROAST_SCENARIO_7].CoilEnabled = false;
+
   }
 
 } //InitRoast
@@ -74,6 +114,38 @@ void StartRoast( void ){
 
     // Get sample from thermocouple
     ThermSample = SampleTherm();
+
+    unsigned int CurveDelta = CurveSample - ThermSample;  //!< Delta between curve
+                                                          //!< and thermocouple
+
+    unsigned char CurrentScenario = ROAST_SCENARIO_4; //!< Used to store current
+                                                      //!< scenario (default 4)
+
+    // Check what schenario we are currently in
+    if(CurveDelta > SCENARIO_0_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_0;
+    }else if(CurveDelta > SCENARIO_1_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_1;
+    }else if(CurveDelta > SCENARIO_2_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_2;
+    }else if(CurveDelta > SCENARIO_3_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_3;
+    }else if(CurveDelta > SCENARIO_4_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_4;
+    }else if(CurveDelta > SCENARIO_5_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_5;
+    }else if(CurveDelta > SCENARIO_6_THRESHOLD){
+      CurrentScenario = ROAST_SCENARIO_6;
+    }else{
+      CurrentScenario = ROAST_SCENARIO_7;
+    }
+
+    struct ST_RoastScenario *CurrentScenarioInfo =
+                        &(RoastScenarios[CurrentScenario]);
+                        //!< Pointer to the info for the current scenario
+
+    SetFanLevel(CurrentScenarioInfo->FanLevel);
+    SetCoilEnabled(CurrentScenarioInfo->CoilEnabled);
 
   }
 

@@ -109,3 +109,35 @@ unsigned int SampleTherm( void )
   return value;
 
 } //SampleTherm
+
+//-----------------------------------------------------------------------------
+//
+//  SetFanLevel
+//! \brief   Description:  This will set the PWM to change fan speed
+//
+//  Entry:
+//!   \param[in] FanLevel : The speed you want to set the fan at
+///
+//  Exit:
+//!   \return NONE
+//-----------------------------------------------------------------------------
+void SetFanLevel( float FanLevel )
+{
+  return;
+} //SetFanLevel
+
+//-----------------------------------------------------------------------------
+//
+//  SetCoilEnabled
+//! \brief   Description:  This will set the coil on or off
+//
+//  Entry:
+//!   \param[in] CoilEnabled : Do you want to turn the coil on or off?
+///
+//  Exit:
+//!   \return NONE
+//-----------------------------------------------------------------------------
+void SetCoilEnabled( bool CoilEnabled )
+{
+  return;
+} //SetCoilEnabled

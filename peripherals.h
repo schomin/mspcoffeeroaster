@@ -26,6 +26,11 @@
 #define TACH        BIT0    //!< TACH bit define
 #define PWM         BIT1    //!< PWM bit define
 
+#define FAN_MAX     128     //!< Max duty cycle for PWM
+#define FAN_STATE_3 96
+#define FAN_STATE_2 64
+#define FAN_STATE_1 32
+#define FAN_OFF     0       //!< Fan off state
 
 // === GLOBAL VARIABLES ======================================================
 
@@ -35,3 +40,5 @@
 void InitPWM( void );
 void InitTherm( void );
 unsigned int SampleTherm( void );
+void SetFanLevel( float FanLevel );
+void SetCoilEnabled( bool CoilEnabled );
