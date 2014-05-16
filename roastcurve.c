@@ -20,13 +20,19 @@
 
 void GetRoastCurve( void ){
 
-  CurentCurvePoint = (unsigned int *)FLASH_START_ADDRESS;
+  CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
 
   while (1){
 
     unsigned int temp = FlashRead(CurentCurvePoint++);
 
     UARTSendArray(&temp, 2);
+
+    if(temp == 0xFFFF){
+
+      break;
+
+    }
 
   }
 

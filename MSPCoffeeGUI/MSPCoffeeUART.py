@@ -6,40 +6,45 @@ import csv
 from math import trunc
 
 
-"""
-  MSPCoffeeUART
 
-  This class is a UART object and will connect and communicate with the
-  mspcoffee device
-
-"""
 class MSPCoffeeUART:
+  """
+    MSPCoffeeUART
+
+    This class is a UART object and will connect and communicate with the
+    mspcoffee device
 
   """
-    __init__
 
-    Initilization function for the MSPCoffeeUART class
-  """
   def __init__(self):
+    """
+      __init__
+
+      Initilization function for the MSPCoffeeUART class
+    """
 
     # Open the serial port for use in the object
     self.__SerialPort = serial.Serial('/dev/ttyACM0', 9600, bytesize = serial.EIGHTBITS, parity = serial.PARITY_NONE, stopbits = serial.STOPBITS_ONE, timeout=1)
 
-  """
-    __del__
 
-    Desctructor for the MSPCoffeeUART class
-  """
   def __del__(self):
+    """
+      __del__
+
+      Desctructor for the MSPCoffeeUART class
+    """
 
     self.__SerialPort.close() # Close the serial port on object deletion
 
-  """
-    upload_curve
-
-    upload a curve to the mspcoffee device given a csv file location
-  """
   def upload_curve(self, file_name):
+    """
+      upload_curve
+
+      upload a curve to the mspcoffee device given a csv file location
+
+      Keyword arguments:
+      file_name -- The string path to csv file to upload to device
+    """
 
     print ("Writing s to serial port\n")
     # Write an 's' char to the uart to tell the device we want to save a curve
@@ -53,7 +58,6 @@ class MSPCoffeeUART:
     while response != b'k':
       print ("Waiting for hand shake\n")
       response = self.__SerialPort.read()
-      print (response)
     print ("Uploading the curve\n")
 
     # Open Curve csv file for transfer
@@ -80,12 +84,14 @@ class MSPCoffeeUART:
       response = self.__SerialPort.readline()
       print (response)
 
-  """
-    download_curve
 
-    down a curve from the mspcoffee device
-  """
   def download_curve(self):
+    """
+      download_curve
+
+      down a curve from the mspcoffee device
+    """
+
     # Write an 's' char to the uart to tell the device we want to save a curve
     self.__SerialPort.write('g'.encode('utf-8'))
     self.__SerialPort.flush()
