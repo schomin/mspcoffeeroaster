@@ -130,6 +130,12 @@ void InitDevice( void ){
   //Initialize the button interupt for forcing last/saved roast curve
   InitBtnInterrupt();
 
+  //Initialize PWM for fan
+  InitPWM();
+
+  //Initialize thermocouple for sampleing temp
+  InitTherm();
+
   //Set ACLK to use internal VLO (12 kHz clock)
 	BCSCTL3 |= LFXT1S_2;
 

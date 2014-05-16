@@ -15,9 +15,6 @@
 
 // === PUBLIC VARIABLES ======================================================
 
-unsigned int *CurentCurvePoint = (unsigned int *)FLASH_START_ADDRESS;
-bool CurveSaveStarted = false;
-int CurveOffset = 0;
 
 // === PUBLIC FUNCTIONS ======================================================
 

@@ -13,8 +13,10 @@
 
 #include "roastcurve.h"
 
-// === GLOBAL VARIABLES ======================================================
+// === PUBLIC VARIABLES ======================================================
 
+unsigned int *CurrentCurvePoint = (unsigned int *)FLASH_START_ADDRESS;
+bool CurveSaveStarted = false;
 
 // === FUNCTIONS =============================================================
 
@@ -32,11 +34,11 @@
 //-----------------------------------------------------------------------------
 void GetRoastCurve( void ){
 
-  CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
+  CurrentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
 
   while (1){
 
-    unsigned int temp = FlashRead(CurentCurvePoint++);
+    unsigned int temp = FlashRead(CurrentCurvePoint++);
 
     UARTSendArray(&temp, 2);
 

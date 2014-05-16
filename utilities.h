@@ -23,3 +23,7 @@
 #ifndef true
 #define true  1		//!< Define value for true
 #endif //true
+
+#define PERIOD5MSEC 80000   //!< 5 msec worth of SMCLK tics @ DCO = 16 MHz
+                            //!< is 80000 cycles
+#define PERIOD050USEC 80    // assuming ~16 MHz DCO clock

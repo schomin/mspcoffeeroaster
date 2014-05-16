@@ -2,32 +2,36 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  flash.h
-//      description:  Header file for flash utilities
+//           module:  peripherals.h
+//      description:  header file for peripherals used in roast proccess
 //  original author:  Andrew Schomin
-//    creation date:  05-13-2014
+//    creation date:  05-16-2014
 //
 //****************************************************************************
 
 // === INCLUDES ==============================================================
 
 #include <msp430.h>
-#include <legacymsp430.h>
-#include "uart.h"
 #include "utilities.h"
 
 // === DEFINES ===============================================================
 
-#define FLASH_START_ADDRESS 0xE000    //!< The starting memory address of usable
-                                      //!< Flash space
-#define ERASE_BLOCK_SIZE    0x200               //!< Size of an erase block
-#define ERASE_BLOCK_INT_SIZE ERASE_BLOCK_SIZE/2 //!< Size of erase blocks in
-                                                //!< ints (2 bytes or 16 bits)
+// Port 1 pins
+#define CS          BIT3
+#define THERM       BIT4    //!< Bit for thermocouple input
+#define REF         BIT5    //!< Reference voltage bit
+#define CA_IN       BIT6    //!<
+
+// Port 2 pins
+#define TACH        BIT0    //!< TACH bit define
+#define PWM         BIT1    //!< PWM bit define
+
 
 // === GLOBAL VARIABLES ======================================================
 
+
 // === FUNCTION PROTOTYPES ===================================================
 
-void FlashErase(unsigned int *addr);
-void FlashProgram(unsigned int *addr, unsigned int value);
-unsigned int FlashRead(unsigned int *addr);
+void InitPWM( void );
+void InitTherm( void );
+unsigned int SampleTherm( void );

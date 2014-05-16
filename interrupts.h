@@ -14,7 +14,8 @@
 #include <msp430.h>
 #include <legacymsp430.h>
 #include "deviceinit.h"
-#include "roastinit.h"
+#include "roastcurve.h"
+#include "roast.h"
 #include "uart.h"
 #include "flash.h"
 
