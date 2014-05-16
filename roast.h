@@ -2,8 +2,8 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  roastinit.c
-//      description:  Initialize the roast process
+//           module:  roast.h
+//      description:  header file toInitialize the roast process
 //  original author:  Andrew Schomin
 //    creation date:  05-09-2014
 //
@@ -11,22 +11,14 @@
 
 // === INCLUDES ==============================================================
 
-#include "roastinit.h"
+#include <msp430.h>
+#include "utilities.h"
 
 // === GLOBAL VARIABLES ======================================================
 
-bool RoastStarted = false; // Initialize RoastStarted
+extern bool RoastStarted;	//!< Variable to track when roast has started
 
-// === FUNCTIONS =============================================================
+// === FUNCTION PROTOTYPES ===================================================
 
-void InitRoast(){
-
-  //If roasting is in progress then we don't want to init
-  if(!RoastStarted){
-
-    //Roasting is in progress
-    RoastStarted = true;
-
-  }
-
-} //InitRoast
+void InitRoast( void );
+void StartRoast( void );

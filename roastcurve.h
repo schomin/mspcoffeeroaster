@@ -22,4 +22,4 @@
 
 // === FUNCTION PROTOTYPES ===================================================
 
-void SaveRoastCurve( void );
+void GetRoastCurve( void );

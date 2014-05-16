@@ -2,27 +2,28 @@
 //*                    MSP430 Popcorn Popper Coffee Roaster                  *
 //****************************************************************************
 //
-//           module:  roastcurve.c
-//      description:  Initialize the roast curve
+//           module:  roast.c
+//      description:  the roast process
 //  original author:  Andrew Schomin
-//    creation date:  05-14-2014
+//    creation date:  05-09-2014
 //
 //****************************************************************************
 
 // === INCLUDES ==============================================================
 
-#include "roastcurve.h"
+#include "roast.h"
 
 // === GLOBAL VARIABLES ======================================================
 
+bool RoastStarted = false; // Initialize RoastStarted
 
 // === FUNCTIONS =============================================================
 
 //-----------------------------------------------------------------------------
 //
-//  GetRoastCurve
-//! \brief   Description:  This will send the stored roast curve back to the
-//!                        host.
+//  InitRoast
+//! \brief   Description:  This will Initialize the roast process. Setup the
+//!                        device
 //
 //  Entry:
 //!   \param NONE
@@ -30,22 +31,31 @@
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void GetRoastCurve( void ){
+void InitRoast( void ){
 
-  CurentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
+  //If roasting is in progress then we don't want to init
+  if(!RoastStarted){
 
-  while (1){
-
-    unsigned int temp = FlashRead(CurentCurvePoint++);
-
-    UARTSendArray(&temp, 2);
-
-    if(temp == 0xFFFF){
-
-      break;
-
-    }
+    //Roasting is in progress
+    RoastStarted = true;
 
   }
 
-}
+} //InitRoast
+
+//-----------------------------------------------------------------------------
+//
+//  StartRoast
+//! \brief   Description:  This will start the roast process.
+//
+//  Entry:
+//!   \param NONE
+///
+//  Exit:
+//!   \return NONE ( Does not return any values )
+//-----------------------------------------------------------------------------
+void StartRoast( void ){
+
+  
+
+} //StartRoast
