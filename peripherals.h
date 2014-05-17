@@ -26,17 +26,22 @@
 #define TACH        BIT0    //!< TACH bit define
 #define PWM         BIT1    //!< PWM bit define
 
-#define FAN_MAX     128     //!< Max duty cycle for PWM
-#define FAN_STATE_3 96
-#define FAN_STATE_2 64
-#define FAN_STATE_1 32
+#define FAN_MAX     100     //!< Max duty cycle for PWM
+#define FAN_STATE_3 80
+#define FAN_STATE_2 60
+#define FAN_STATE_1 35
 #define FAN_OFF     0       //!< Fan off state
 
-// === GLOBAL VARIABLES ======================================================
+#define NUM_FAN_LEVELS  6   //!< The number of fam levels available
 
+// === PUBLIC VARIABLES ======================================================
+
+unsigned char dutyCycles[ NUM_FAN_LEVELS ] = {
+            FAN_OFF, FAN_STATE_1, FAN_STATE_2,
+            FAN_STATE_3, FAN_MAX
+          }; //!< Lookup table for fan duty cycles
 
 // === FUNCTION PROTOTYPES ===================================================
-
 void InitPWM( void );
 void InitTherm( void );
 unsigned int SampleTherm( void );

@@ -121,9 +121,20 @@ unsigned int SampleTherm( void )
 //  Exit:
 //!   \return NONE
 //-----------------------------------------------------------------------------
-void SetFanLevel( float FanLevel )
+void SetFanLevel( char FanLevel )
 {
-  return;
+  float dutyCycle;
+
+  level = FanLevel;                      // Set to the desired level
+                                            // Convert duty cycle to a %
+  dutyCycle = ((float)(dutyCycles[level]))/100;
+
+  if (dutyCycle > 0.99)
+      TA1CCTL1 = OUTMOD_5;                  // Output constant LOW signal
+  else {
+    TA1CCR1 = (dutyCycle * PERIOD050USEC);  // Update the compare register
+    TA1CCTL1 = OUTMOD_3;                    // Generate PWM via out mode 3
+  }
 } //SetFanLevel
 
 //-----------------------------------------------------------------------------
