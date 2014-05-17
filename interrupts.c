@@ -41,12 +41,14 @@ interrupt(PORT1_VECTOR) PORT1_ISR(void) {
 
     P1IFG = P1IFG & ~BTN;
 
+
+    dint();
+
     InitRoast();
+    HostStarted = false;
+    StartRoast();
 
-    UARTSendArray("Button Pushed\n", 14);
-
-    //Disable the interrupt for TACCR0 match. We are now doing somethings
-    TACCTL0 = ~(CCIE);
+    eint();
 
   }
 
@@ -144,9 +146,23 @@ interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
      }
      // Host wants to get a roast curve
      case 'g': {
+       dint();
        // Respond with k char
        UARTSendArray("k", 1);
        GetRoastCurve();
+       eint();
+     }
+     // Host wants to start the roast
+     case 'r': {
+       // Respond with k char
+       UARTSendArray("k", 1);
+       dint();
+       InitRoast();
+       //Disable the interrupt for TACCR0 match. We are now doing somethings
+       TACCTL0 = ~(CCIE);
+       HostStarted = false;
+       StartRoast();
+       eint();
      }
      default: {
        UARTSendArray("Unknown Command: ", 17);

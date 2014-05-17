@@ -45,7 +45,7 @@ struct  __attribute__((__packed__)) ST_RoastScenario
   //!< This is a struct that will hold a number of thresholds and how to adjust
   //!< the peripherals accordingly for a scenario
   char TemperatureOffset;           //!< The offset between measured and curve t
-  float         FanLevel;           //!< Fan level to use in this scenario
+  char         FanLevel;            //!< Fan level to use in this scenario
   bool       CoilEnabled;           //!< Coil needs to be on or off for scenario
 };
 
@@ -57,6 +57,7 @@ struct ST_RoastScenario RoastScenarios[8];
 // === PUBLIC VARIABLES ======================================================
 
 extern bool RoastStarted;	//!< Variable to track when roast has started
+extern bool HostStarted;   //!< The roast process was started by the a host
 
 // === FUNCTION PROTOTYPES ===================================================
 

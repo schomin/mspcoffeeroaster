@@ -16,6 +16,7 @@
 // === PUBLIC VARIABLES ======================================================
 
 bool RoastStarted = false; // Initialize RoastStarted
+bool HostStarted = false;  // Initialize HostStarted
 
 // === FUNCTIONS =============================================================
 
@@ -100,6 +101,8 @@ void StartRoast( void ){
   // Re-Initialize the CurrentCurve point back to the play back address start
   CurrentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
 
+  unsigned int *SaveCurvePoint = (unsigned int *)CURVE_RECORD_START_ADDRESSS;
+
   unsigned int CurveSample = 0x0000; //!< A temp sample from the curve (1sec)
   unsigned int ThermSample = 0x0000; //!< Sample from the thermocouple
 
@@ -114,6 +117,22 @@ void StartRoast( void ){
 
     // Get sample from thermocouple
     ThermSample = SampleTherm();
+
+    // Check if the current address is a multiple of 0x200 for eraseing
+    if((unsigned int)(&SaveCurvePoint)%(ERASE_BLOCK_SIZE) == 0){
+
+      FlashErase(SaveCurvePoint);
+    }
+
+    // Save the roast point to flash
+    FlashProgram(SaveCurvePoint++, ThermSample);
+
+    // If the host started the roast then send sampled temp via uart
+    if(HostStarted){
+
+      UARTSendArray(&ThermSample, 2);
+
+    }
 
     unsigned int CurveDelta = CurveSample - ThermSample;  //!< Delta between curve
                                                           //!< and thermocouple
@@ -146,6 +165,8 @@ void StartRoast( void ){
 
     SetFanLevel(CurrentScenarioInfo->FanLevel);
     SetCoilEnabled(CurrentScenarioInfo->CoilEnabled);
+
+    __delay_cycles(SAMPLE_RATE);
 
   }
 

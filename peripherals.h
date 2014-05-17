@@ -34,16 +34,15 @@
 
 #define NUM_FAN_LEVELS  6   //!< The number of fam levels available
 
+#define SAMPLE_RATE 16000000//!< 1 sec for 16Mhz clock
+
 // === PUBLIC VARIABLES ======================================================
 
-unsigned char dutyCycles[ NUM_FAN_LEVELS ] = {
-            FAN_OFF, FAN_STATE_1, FAN_STATE_2,
-            FAN_STATE_3, FAN_MAX
-          }; //!< Lookup table for fan duty cycles
+extern unsigned char dutyCycles[ NUM_FAN_LEVELS ]; //!< Lookup table for fan duty cycles
 
 // === FUNCTION PROTOTYPES ===================================================
 void InitPWM( void );
 void InitTherm( void );
 unsigned int SampleTherm( void );
-void SetFanLevel( float FanLevel );
+void SetFanLevel( char FanLevel );
 void SetCoilEnabled( bool CoilEnabled );

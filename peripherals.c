@@ -15,6 +15,11 @@
 
 // === PUBLIC VARIABLES ======================================================
 
+unsigned char dutyCycles[ NUM_FAN_LEVELS ] = {
+          FAN_OFF, FAN_STATE_1, FAN_STATE_2,
+          FAN_STATE_3, FAN_MAX
+          };
+
 // === FUNCTIONS =============================================================
 
 //-----------------------------------------------------------------------------
@@ -123,17 +128,17 @@ unsigned int SampleTherm( void )
 //-----------------------------------------------------------------------------
 void SetFanLevel( char FanLevel )
 {
-  float dutyCycle;
-
-  level = FanLevel;                      // Set to the desired level
-                                            // Convert duty cycle to a %
-  dutyCycle = ((float)(dutyCycles[level]))/100;
+  float dutyCycle = ((float)(dutyCycles[FanLevel]))/100;
 
   if (dutyCycle > 0.99)
-      TA1CCTL1 = OUTMOD_5;                  // Output constant LOW signal
+
+    TA1CCTL1 = OUTMOD_5;                  // Output constant LOW signal
+
   else {
+
     TA1CCR1 = (dutyCycle * PERIOD050USEC);  // Update the compare register
     TA1CCTL1 = OUTMOD_3;                    // Generate PWM via out mode 3
+
   }
 } //SetFanLevel
 
