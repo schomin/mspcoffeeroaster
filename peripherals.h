@@ -36,9 +36,16 @@
 
 #define SAMPLE_RATE 16000000//!< 1 sec for 16Mhz clock
 
+// === TYPEDEF ===============================================================
+
+typedef enum FanLevel {
+  FANSLEVEL0, FANSLEVEL1, FANSLEVEL2, FANSLEVEL3, FANSLEVEL4
+} FanLevel;
+
 // === PUBLIC VARIABLES ======================================================
 
-extern unsigned char dutyCycles[ NUM_FAN_LEVELS ]; //!< Lookup table for fan duty cycles
+extern unsigned char dutyCycles[ NUM_FAN_LEVELS ];
+              //!< Lookup table for fan duty cycles
 
 // === FUNCTION PROTOTYPES ===================================================
 void InitPWM( void );
