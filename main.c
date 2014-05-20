@@ -18,6 +18,7 @@
 #include "interrupts.h"
 #include "uart.h"
 #include "flash.h"
+#include "peripherals.h"
 
 // === MAIN FUNTION ==========================================================
 
@@ -29,6 +30,10 @@ int main(void) {
 
 	//Initialize the UART
 	InitUART();
+
+	InitPWM();
+
+	SetFanLevel(FAN_STATE_1);
 
 	//Enable global interrupts
 	eint();

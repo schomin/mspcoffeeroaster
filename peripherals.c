@@ -128,7 +128,7 @@ unsigned int SampleTherm( void )
 //-----------------------------------------------------------------------------
 void SetFanLevel( char FanLevel )
 {
-  float dutyCycle = ((float)(dutyCycles[FanLevel]))/100;
+  float dutyCycle = ((float)(FanLevel))/100;
 
   if (dutyCycle > 0.99)
 
