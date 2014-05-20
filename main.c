@@ -31,12 +31,12 @@ int main(void) {
 	//Initialize the UART
 	InitUART();
 
+	//Enable global interrupts
+	eint();
+
 	InitPWM();
 
 	SetFanLevel(FAN_STATE_1);
-
-	//Enable global interrupts
-	eint();
 
 	while(1) {
 		//Loop forever, interrupts take care of the rest
