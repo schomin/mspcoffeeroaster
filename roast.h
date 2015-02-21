@@ -11,10 +11,7 @@
 
 // === INCLUDES ==============================================================
 
-#include <msp430.h>
-#include "utilities.h"
-#include "roastcurve.h"
-#include "peripherals.h"
+#include "types.h"
 
 // === DEFINES ===============================================================
 
@@ -44,20 +41,20 @@ struct  __attribute__((__packed__)) ST_RoastScenario
 {
   //!< This is a struct that will hold a number of thresholds and how to adjust
   //!< the peripherals accordingly for a scenario
-  char TemperatureOffset;           //!< The offset between measured and curve t
-  char         FanLevel;            //!< Fan level to use in this scenario
-  bool       CoilEnabled;           //!< Coil needs to be on or off for scenario
+  char stTemperatureOffset;           //!< The offset between measured and curve t
+  char         stFanLevel;            //!< Fan level to use in this scenario
+  bool       stCoilEnabled;           //!< Coil needs to be on or off for scenario
 };
 
 // === INITIALIZE STRUCTS ====================================================
 
-struct ST_RoastScenario RoastScenarios[8];
+struct ST_RoastScenario roastScenarios[8];
             //!< Array of predefined ST_RoastScenario structs
 
 // === PUBLIC VARIABLES ======================================================
 
-extern bool RoastStarted;	//!< Variable to track when roast has started
-extern bool HostStarted;   //!< The roast process was started by the a host
+extern bool roastStarted;	//!< Variable to track when roast has started
+extern bool hostStarted;   //!< The roast process was started by the a host
 
 // === FUNCTION PROTOTYPES ===================================================
 

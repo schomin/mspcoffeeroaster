@@ -9,12 +9,6 @@
 //
 //****************************************************************************
 
-// === INCLUDES ==============================================================
-
-#include <msp430.h>
-#include <legacymsp430.h>
-#include "deviceinit.h"
-
 // === DEFINES ===============================================================
 
 #define     TXD                   BIT1    // TXD on P1.1
@@ -25,4 +19,4 @@
 // === FUNCTION PROTOTYPES ==================================================
 
 void InitUART( void );
-void UARTSendArray( unsigned char *TxArray, unsigned char ArrayLength);
+void UARTSendArray( uint16 *TxArray, uint16 ArrayLength);

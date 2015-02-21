@@ -11,7 +11,11 @@
 
 // === INCLUDES ==============================================================
 
+#include <msp430.h>
+#include <legacymsp430.h>
+#include "deviceinit.h"
 #include "uart.h"
+#include "types.h"
 
 // === PUBLIC FUNCTIONS ======================================================
 
@@ -69,7 +73,7 @@ void InitUART( void ){
 //!   two bytes for each integer hence the data length is twice the
 //!   array length
 //-----------------------------------------------------------------------------
-void UARTSendArray( unsigned char *TxArray, unsigned char ArrayLength){
+void UARTSendArray( uint16 *TxArray, uint16 ArrayLength){
 
 
   while(ArrayLength-- != 0){ // Loop until StringLength == 0 and post decrement

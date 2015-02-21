@@ -11,11 +11,7 @@
 
 // === INCLUDES ==============================================================
 
-#include <msp430.h>
-#include "utilities.h"
-#include "deviceinit.h"
-#include "uart.h"
-#include "flash.h"
+#include "types.h"
 
 // === DEFINES ===============================================================
 
@@ -33,9 +29,9 @@
 
 // === GLOBAL VARIABLES ======================================================
 
-extern unsigned int *CurrentCurvePoint;    //!< Current memory address of the
+extern uint16 *currentCurvePoint;    //!< Current memory address of the
                                           //!< accessed curve
-extern bool CurveSaveStarted;             //!< A curve save has been initiated
+extern bool curveSaveStarted;             //!< A curve save has been initiated
 
 // === FUNCTION PROTOTYPES ===================================================
 

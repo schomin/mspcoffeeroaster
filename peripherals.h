@@ -11,8 +11,7 @@
 
 // === INCLUDES ==============================================================
 
-#include <msp430.h>
-#include "utilities.h"
+#include "types.h"
 
 // === DEFINES ===============================================================
 
@@ -44,12 +43,12 @@ typedef enum FanLevel {
 
 // === PUBLIC VARIABLES ======================================================
 
-extern unsigned char dutyCycles[ NUM_FAN_LEVELS ];
+extern uint8 dutyCycles[ NUM_FAN_LEVELS ];
               //!< Lookup table for fan duty cycles
 
 // === FUNCTION PROTOTYPES ===================================================
 void InitPWM( void );
 void InitTherm( void );
-unsigned int SampleTherm( void );
+uint16 SampleTherm( void );
 void SetFanLevel( char FanLevel );
 void SetCoilEnabled( bool CoilEnabled );

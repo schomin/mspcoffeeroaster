@@ -11,11 +11,13 @@
 
 // === INCLUDES ==============================================================
 
+#include <msp430.h>
 #include "peripherals.h"
+#include "types.h"
 
 // === PUBLIC VARIABLES ======================================================
 
-unsigned char dutyCycles[ NUM_FAN_LEVELS ] = {
+uint8 dutyCycles[ NUM_FAN_LEVELS ] = {
           FAN_OFF, FAN_STATE_1, FAN_STATE_2,
           FAN_STATE_3, FAN_MAX
           };
@@ -76,13 +78,13 @@ void InitTherm( void )
 //!   \return
 //!    Returns the sampled temperature in degrees F
 //-----------------------------------------------------------------------------
-unsigned int SampleTherm( void )
+uint16 SampleTherm( void )
 {
 
   //!!!!!!!!Code here is an example but may not work!!!!!!!!!!!
 
-  unsigned int i;
-  unsigned int value;
+  uint16 i;
+  uint16 value;
 
   P1OUT ^= CS;
 //CS low to enable device
@@ -148,12 +150,12 @@ void SetFanLevel( FanLevel fanLevel )
 //! \brief   Description:  This will set the coil on or off
 //
 //  Entry:
-//!   \param[in] CoilEnabled : Do you want to turn the coil on or off?
+//!   \param[in] coilEnabled : Do you want to turn the coil on or off?
 ///
 //  Exit:
 //!   \return NONE
 //-----------------------------------------------------------------------------
-void SetCoilEnabled( bool CoilEnabled )
+void SetCoilEnabled( bool coilEnabled )
 {
   return;
 } //SetCoilEnabled

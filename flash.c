@@ -11,10 +11,11 @@
 
 // === INCLUDES ==============================================================
 
+#include <msp430.h>
+#include <legacymsp430.h>
 #include "flash.h"
-
-// === PUBLIC VARIABLES ======================================================
-
+#include "uart.h"
+#include "types.h"
 
 // === PUBLIC FUNCTIONS ======================================================
 
@@ -29,14 +30,14 @@
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashErase(unsigned int *addr)
+void FlashErase(uint16 *addr)
 {
 
   dint();                              // Disable interrupts. This is important, otherwise,
                                        // a flash operation in progress while interrupt may
                                        // crash the system.
   while(BUSY & FCTL3);                 // Check if Flash being used
-  FCTL2 = FWKEY + FSSEL1 + FN2;       // Clk = SMCLK/4
+  FCTL2 = FWKEY + FSSEL1 + FN2;        // Clk = SMCLK/4
   FCTL1 = FWKEY + ERASE;               // Set Erase bit
   FCTL3 = FWKEY;                       // Clear Lock bit
   *addr = 0;                           // Dummy write to erase Flash segment
@@ -61,7 +62,7 @@ void FlashErase(unsigned int *addr)
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashProgram(unsigned int *addr, unsigned int value)
+void FlashProgram(uint16 *addr, uint16 value)
 {
   dint();                              // Disable interrupts
   FCTL2 = FWKEY + FSSEL1 + FN2;       // Clk = SMCLK/4
@@ -87,7 +88,7 @@ void FlashProgram(unsigned int *addr, unsigned int value)
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-unsigned int FlashRead(unsigned int *addr)
+unsigned int FlashRead(uint16 *addr)
 {
 
   return *addr;

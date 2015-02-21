@@ -14,6 +14,7 @@
 #include <msp430.h>
 #include <stdlib.h>
 
+#include "assert.h"
 #include "deviceinit.h"
 #include "interrupts.h"
 #include "uart.h"

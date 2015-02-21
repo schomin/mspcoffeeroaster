@@ -9,13 +9,6 @@
 //
 //****************************************************************************
 
-// === INCLUDES ==============================================================
-
-#include <msp430.h>
-#include <legacymsp430.h>
-#include "uart.h"
-#include "utilities.h"
-
 // === DEFINES ===============================================================
 
 #define FLASH_START_ADDRESS 0xE000    //!< The starting memory address of usable
@@ -28,6 +21,6 @@
 
 // === FUNCTION PROTOTYPES ===================================================
 
-void FlashErase(unsigned int *addr);
-void FlashProgram(unsigned int *addr, unsigned int value);
-unsigned int FlashRead(unsigned int *addr);
+void FlashErase(uint16 *addr);
+void FlashProgram(uint16 *addr, uint16 value);
+unsigned int FlashRead(uint16 *addr);

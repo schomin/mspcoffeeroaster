@@ -11,6 +11,8 @@
 
 // === INCLUDES ==============================================================
 
+#include <msp430.h>
+#include "peripherals.h"
 #include "deviceinit.h"
 
 // === PUBLIC FUNCTIONS ======================================================

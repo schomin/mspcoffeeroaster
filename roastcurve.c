@@ -11,12 +11,18 @@
 
 // === INCLUDES ==============================================================
 
+#include <msp430.h>
+
+#include "types.h"
+#include "deviceinit.h"
+#include "uart.h"
+#include "flash.h"
 #include "roastcurve.h"
 
-// === PUBLIC VARIABLES ======================================================
+// === PRIVATE VARIABLES ======================================================
 
-unsigned int *CurrentCurvePoint = (unsigned int *)FLASH_START_ADDRESS;
-bool CurveSaveStarted = false;
+uint16 *currentCurvePoint = (uint16 *)FLASH_START_ADDRESS;
+bool curveSaveStarted = false;
 
 // === FUNCTIONS =============================================================
 
@@ -34,11 +40,11 @@ bool CurveSaveStarted = false;
 //-----------------------------------------------------------------------------
 void GetRoastCurve( void ){
 
-  CurrentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
+  currentCurvePoint = (uint16 *)CURVE_START_ADDRESS;
 
   while (1){
 
-    unsigned int temp = FlashRead(CurrentCurvePoint++);
+    uint16 temp = FlashRead(currentCurvePoint++);
 
     UARTSendArray(&temp, 2);
 
