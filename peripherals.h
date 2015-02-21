@@ -50,5 +50,5 @@ extern uint8 dutyCycles[ NUM_FAN_LEVELS ];
 void InitPWM( void );
 void InitTherm( void );
 uint16 SampleTherm( void );
-void SetFanLevel( char FanLevel );
+void SetFanLevel( FanLevel fanLevel );
 void SetCoilEnabled( bool CoilEnabled );

@@ -14,6 +14,7 @@
 #include <msp430.h>
 
 #include "types.h"
+#include "constants.h"
 #include "deviceinit.h"
 #include "uart.h"
 #include "flash.h"

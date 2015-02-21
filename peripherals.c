@@ -14,6 +14,7 @@
 #include <msp430.h>
 #include "peripherals.h"
 #include "types.h"
+#include "constants.h"
 
 // === PUBLIC VARIABLES ======================================================
 

@@ -13,14 +13,16 @@
 
 #include <msp430.h>
 #include "types.h"
+#include "constants.h"
 #include "roastcurve.h"
 #include "peripherals.h"
 #include "roast.h"
+#include "flash.h"
 
 // === PUBLIC VARIABLES ======================================================
 
 bool roastStarted = false; // Initialize roastStarted
-bool hostStarted = false;  // Initialize HostStarted
+bool hostStarted = false;  // Initialize hostStarted
 
 // === FUNCTIONS =============================================================
 
@@ -123,52 +125,52 @@ void StartRoast( void ){
     thermSample = SampleTherm();
 
     // Check if the current address is a multiple of 0x200 for eraseing
-    if((uint16)(&SaveCurvePoint)%(ERASE_BLOCK_SIZE) == 0){
+    if((uint16)(&saveCurvePoint)%(ERASE_BLOCK_SIZE) == 0){
 
-      FlashErase(SaveCurvePoint);
+      FlashErase(saveCurvePoint);
     }
 
     // Save the roast point to flash
-    FlashProgram(SaveCurvePoint++, thermSample);
+    FlashProgram(saveCurvePoint++, thermSample);
 
     // If the host started the roast then send sampled temp via uart
-    if(HostStarted){
+    if(hostStarted){
 
       UARTSendArray(&thermSample, 2);
 
     }
 
-    unsigned int CurveDelta = curveSample - thermSample;  //!< Delta between curve
+    uint16 curveDelta = curveSample - thermSample;  //!< Delta between curve
                                                           //!< and thermocouple
 
-    unsigned char CurrentScenario = ROAST_SCENARIO_4; //!< Used to store current
+    uint8 currentScenario = ROAST_SCENARIO_4; //!< Used to store current
                                                       //!< scenario (default 4)
 
     // Check what schenario we are currently in
-    if(CurveDelta > SCENARIO_0_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_0;
-    }else if(CurveDelta > SCENARIO_1_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_1;
-    }else if(CurveDelta > SCENARIO_2_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_2;
-    }else if(CurveDelta > SCENARIO_3_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_3;
-    }else if(CurveDelta > SCENARIO_4_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_4;
-    }else if(CurveDelta > SCENARIO_5_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_5;
-    }else if(CurveDelta > SCENARIO_6_THRESHOLD){
-      CurrentScenario = ROAST_SCENARIO_6;
+    if(curveDelta > SCENARIO_0_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_0;
+    }else if(curveDelta > SCENARIO_1_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_1;
+    }else if(curveDelta > SCENARIO_2_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_2;
+    }else if(curveDelta > SCENARIO_3_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_3;
+    }else if(curveDelta > SCENARIO_4_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_4;
+    }else if(curveDelta > SCENARIO_5_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_5;
+    }else if(curveDelta > SCENARIO_6_THRESHOLD){
+      currentScenario = ROAST_SCENARIO_6;
     }else{
-      CurrentScenario = ROAST_SCENARIO_7;
+      currentScenario = ROAST_SCENARIO_7;
     }
 
-    struct ST_RoastScenario *CurrentScenarioInfo =
-                        &(roastScenarios[CurrentScenario]);
+    struct ST_RoastScenario *currentScenarioInfo =
+                        &(roastScenarios[currentScenario]);
                         //!< Pointer to the info for the current scenario
 
-    SetstFanLevel(CurrentScenarioInfo->stFanLevel);
-    SetstCoilEnabled(CurrentScenarioInfo->stCoilEnabled);
+    SetFanLevel(currentScenarioInfo->stFanLevel);
+    SetCoilEnabled(currentScenarioInfo->stCoilEnabled);
 
     __delay_cycles(SAMPLE_RATE);
 
