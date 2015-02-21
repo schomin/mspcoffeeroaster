@@ -44,7 +44,7 @@ uint16 combinedBits = 0;
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
 #pragma vector=PORT1_VECTOR
-__interrupt PORT1_ISR (void)
+__interrupt void PORT1_ISR (void)
 {
 // interrupt(PORT1_VECTOR) PORT1_ISR(void)
 // {
@@ -80,7 +80,7 @@ __interrupt PORT1_ISR (void)
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
 #pragma vector=TIMER0_A0_VECTOR
-__interrupt TIMERA0_ISR (void)
+__interrupt void TIMERA0_ISR (void)
 {
 // interrupt(TIMER0_A0_VECTOR) TIMERA0_ISR(void)
 // {
@@ -103,11 +103,11 @@ __interrupt TIMERA0_ISR (void)
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
 #pragma vector=USCIAB0RX_VECTOR
-__interrupt USCI0RX_ISR (void)
+__interrupt void USCI0RX_ISR (void)
 {
 // interrupt(USCIAB0RX_VECTOR) USCI0RX_ISR(void)
 // {
-  unsigned char data = UCA0RXBUF;
+  uint8 data = UCA0RXBUF;
 
   //UARTSendArray(&data, 1);
 
@@ -157,7 +157,7 @@ __interrupt USCI0RX_ISR (void)
      // Host wants to save a new curve to flash
      case 's': {
        // Respond with k char
-       UARTSendArray("k", 1);
+       UARTSendArray((uint16 *)"k", 1);
        curveSaveStarted = true;
        currentCurvePoint = (unsigned int *)CURVE_START_ADDRESS;
        //Disable the interrupt for TACCR0 match. We are now doing somethings
@@ -168,14 +168,14 @@ __interrupt USCI0RX_ISR (void)
      case 'g': {
        dint();
        // Respond with k char
-       UARTSendArray("k", 1);
+       UARTSendArray((uint16 *)"k", 1);
        GetRoastCurve();
        eint();
      }
      // Host wants to start the roast
      case 'r': {
        // Respond with k char
-       UARTSendArray("k", 1);
+       UARTSendArray((uint16 *)"k", 1);
        dint();
        InitRoast();
        //Disable the interrupt for TACCR0 match. We are now doing somethings
@@ -185,9 +185,9 @@ __interrupt USCI0RX_ISR (void)
        eint();
      }
      default: {
-       UARTSendArray("Unknown Command: ", 17);
-       UARTSendArray(&data, 1);
-       UARTSendArray("\n\r", 2);
+       UARTSendArray((uint16 *)"Unknown Command: ", 17);
+       UARTSendArray((uint16 *)(&data), 1);
+       UARTSendArray((uint16 *)"\n\r", 2);
        break;
      }
      }

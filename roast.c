@@ -18,6 +18,7 @@
 #include "peripherals.h"
 #include "roast.h"
 #include "flash.h"
+#include "uart.h"
 
 // === PUBLIC VARIABLES ======================================================
 
