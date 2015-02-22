@@ -1,3 +1,16 @@
+//****************************************************************************
+//*                    MSP430 Popcorn Popper Coffee Roaster                  *
+//****************************************************************************
+//
+//           module:  assert.h
+//      description:  header file for asserts
+//  original author:  Andrew Schomin
+//    creation date:  02-21-2015
+//
+//****************************************************************************
+
+// === MACRO DEFS ============================================================
+
 #ifndef FIXINC_WRAP_ASSERT_H_BROKEN_ASSERT_STDLIB
 #define FIXINC_WRAP_ASSERT_H_BROKEN_ASSERT_STDLIB 1
 

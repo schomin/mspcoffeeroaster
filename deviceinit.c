@@ -31,7 +31,7 @@
 //-----------------------------------------------------------------------------
 void InitLEDs( void ){
 
-  LED_DIR |= LED0 + LED1;  	// Set LED pins as outputs
+  LED_DIR |= LED0 + LED1;  	  // Set LED pins as outputs
   LED_OUT &= ~(LED0 + LED1);	// Turn off both LEDs
 
 } // InitLEDs
@@ -64,7 +64,7 @@ void LowLevelInit( void ){
 //
 //  InitBtnInterrupt
 //! \brief   Description:  This function will init the interupt for the btn on
-//!												launchpad dev board
+//!												 launchpad dev board
 //
 //  Entry:
 //!   \param
@@ -85,7 +85,7 @@ void InitBtnInterrupt( void ){
 //
 //  ConfigureClocks
 //! \brief   Description:  This function will init the clocks for the processor
-//!							at 16MHz
+//!							           at 16MHz
 //
 //  Entry:
 //!   \param

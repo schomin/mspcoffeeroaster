@@ -18,10 +18,13 @@
 
 // === PUBLIC VARIABLES ======================================================
 
-uint8 dutyCycles[ NUM_FAN_LEVELS ] = {
-          FAN_OFF, FAN_STATE_1, FAN_STATE_2,
-          FAN_STATE_3, FAN_MAX
-          };
+uint8 dutyCycles[ NUM_FAN_LEVELS ] = { //!< list of duty cycles for fan speeds
+                                       FAN_OFF,
+                                       FAN_STATE_1,
+                                       FAN_STATE_2,
+                                       FAN_STATE_3,
+                                       FAN_MAX
+                                     };
 
 // === FUNCTIONS =============================================================
 

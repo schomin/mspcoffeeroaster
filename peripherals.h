@@ -43,8 +43,7 @@ typedef enum FanLevel {
 
 // === PUBLIC VARIABLES ======================================================
 
-extern uint8 dutyCycles[ NUM_FAN_LEVELS ];
-              //!< Lookup table for fan duty cycles
+extern uint8 dutyCycles[ NUM_FAN_LEVELS ]; //!< Lookup table for fan duty cycles
 
 // === FUNCTION PROTOTYPES ===================================================
 void InitPWM( void );

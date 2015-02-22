@@ -27,4 +27,4 @@
 
 void FlashErase(uint16 *addr);
 void FlashProgram(uint16 *addr, uint16 value);
-unsigned int FlashRead(uint16 *addr);
+void FlashRead(uint16 *page, uint16 *data)

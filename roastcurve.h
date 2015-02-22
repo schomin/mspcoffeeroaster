@@ -21,7 +21,7 @@
                                                 //!< Bytes (1536 bytes or 3 EBs)
                                                 //!< This should be enough for
                                                 //!< About 10 mins of roast time
-#define CURVE_RECORD_START_ADDRESSS CURVE_START_ADDRESS+ROAST_CURVE_SIZE //!<
+#define CURVE_RECORD_START_ADDRESSS CURVE_START_ADDRESS+ROAST_CURVE_SIZE 
                                                 //!< The starting address to
                                                 //!< save the curve being
                                                 //!< recorded

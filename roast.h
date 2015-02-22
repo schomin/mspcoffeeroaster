@@ -12,6 +12,7 @@
 // === INCLUDES ==============================================================
 
 #include "types.h"
+#include "peripherals.h"
 
 // === DEFINES ===============================================================
 
@@ -41,9 +42,9 @@ struct  __attribute__((__packed__)) ST_RoastScenario
 {
   //!< This is a struct that will hold a number of thresholds and how to adjust
   //!< the peripherals accordingly for a scenario
-  char stTemperatureOffset;           //!< The offset between measured and curve t
-  char         stFanLevel;            //!< Fan level to use in this scenario
-  bool       stCoilEnabled;           //!< Coil needs to be on or off for scenario
+  int8 stTemperatureOffset  :  8;     //!< The offset between measured and curve t
+  uint8         stFanLevel  :  7;     //!< Fan level to use in this scenario
+  bool       stCoilEnabled  :  1;     //!< Coil needs to be on or off for scenario
 };
 
 // === INITIALIZE STRUCTS ====================================================
@@ -53,7 +54,7 @@ struct ST_RoastScenario roastScenarios[8];
 
 // === PUBLIC VARIABLES ======================================================
 
-extern bool roastStarted;	//!< Variable to track when roast has started
+extern bool roastStarted;	 //!< Variable to track when roast has started
 extern bool hostStarted;   //!< The roast process was started by the a host
 
 // === FUNCTION PROTOTYPES ===================================================

@@ -14,7 +14,6 @@
 #include <msp430.h>
 #include <legacymsp430.h>
 #include "flash.h"
-#include "uart.h"
 #include "types.h"
 
 // === PUBLIC FUNCTIONS ======================================================
@@ -22,15 +21,15 @@
 //-----------------------------------------------------------------------------
 //
 //  FlashErase
-//! \brief   Description:  This is an interrupt for port1.
+//! \brief   Description:  This is a function used to erase a flash erase block
 //
 //  Entry:
-//!   \param[in] : This paremter is the address of the erase block
+//!   \param[in] : block : This paremter is the address of the erase block
 ///
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashErase(uint16 *addr)
+void FlashErase(uint16 *block)
 {
 
   dint();                              // Disable interrupts. This is important, otherwise,
@@ -40,7 +39,7 @@ void FlashErase(uint16 *addr)
   FCTL2 = FWKEY + FSSEL1 + FN2;        // Clk = SMCLK/4
   FCTL1 = FWKEY + ERASE;               // Set Erase bit
   FCTL3 = FWKEY;                       // Clear Lock bit
-  *addr = 0;                           // Dummy write to erase Flash segment
+  *block = 0;                          // Dummy write to erase Flash segment
   while(BUSY & FCTL3);                 // Check if Flash being used
   FCTL1 = FWKEY;                       // Clear WRT bit
   FCTL3 = FWKEY + LOCK;                // Set LOCK bit
@@ -55,21 +54,20 @@ void FlashErase(uint16 *addr)
 //!                        page address
 //
 //  Entry:
-//!   \param[in] : This paremter is the address of the page to program
-//!   \param[in] : Data to write to the page address
-//!   \param[in] : Size of buffer passed to the program function
+//!   \param[in] : page: This paremter is the address of the page to program
+//!   \param[in] : data: Data to write to the page address
 ///
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-void FlashProgram(uint16 *addr, uint16 value)
+void FlashProgram(uint16 *page, uint16 data)
 {
-  dint();                              // Disable interrupts
-  FCTL2 = FWKEY + FSSEL1 + FN2;       // Clk = SMCLK/4
-  FCTL3 = FWKEY;                       // Clear Lock bit
-  FCTL1 = FWKEY + WRT;                 // Set WRT bit for write operation
+  dint();                               // Disable interrupts
+  FCTL2 = FWKEY + FSSEL1 + FN2;         // Clk = SMCLK/4
+  FCTL3 = FWKEY;                        // Clear Lock bit
+  FCTL1 = FWKEY + WRT;                  // Set WRT bit for write operation
 
-  *addr = value;         // copy value to flash
+  *page = data;                         // copy value to flash
 
   FCTL1 = FWKEY;                        // Clear WRT bit
   FCTL3 = FWKEY + LOCK;                 // Set LOCK bit
@@ -83,14 +81,15 @@ void FlashProgram(uint16 *addr, uint16 value)
 //! \brief   Description:  This will read data at a specified page address
 //
 //  Entry:
-//!   \param[in] : This paremter is the address of the page to Read
+//!   \param[in] : page : This paremter is the address of the page to Read
+//!   \param[in] : data : A pointer to a buffer to read data into
 //
 //  Exit:
 //!   \return NONE ( Does not return any values )
 //-----------------------------------------------------------------------------
-unsigned int FlashRead(uint16 *addr)
+void FlashRead(uint16 *page, uint16 *data)
 {
 
-  return *addr;
+  *data = *addr;
 
 } //FlashRead

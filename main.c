@@ -39,7 +39,8 @@ int main(void) {
 
 	SetFanLevel(FAN_STATE_1);
 
-	while(1) {
+	while(1)
+	{
 		//Loop forever, interrupts take care of the rest
 	}
 

@@ -43,9 +43,12 @@ void GetRoastCurve( void ){
 
   currentCurvePoint = (uint16 *)CURVE_START_ADDRESS;
 
-  while (1){
+  while (1)
+  {
 
-    uint16 temp = FlashRead(currentCurvePoint++);
+    uint16 temp;
+
+    FlashRead(currentCurvePoint++, &temp);
 
     UARTSendArray(&temp, 2);
 

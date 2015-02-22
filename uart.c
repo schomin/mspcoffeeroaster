@@ -75,8 +75,9 @@ void InitUART( void ){
 //-----------------------------------------------------------------------------
 void UARTSendArray( uint16 *TxArray, uint16 ArrayLength){
 
-
-  while(ArrayLength-- != 0){ // Loop until StringLength == 0 and post decrement
+  // Loop until StringLength == 0 and post decrement
+  while(ArrayLength-- != 0)
+  {
 
     while(!(IFG2 & UCA0TXIFG)); // Wait for TX buffer to be ready for new data
 
